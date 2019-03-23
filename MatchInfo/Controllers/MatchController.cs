@@ -15,14 +15,19 @@ namespace MatchInfo.Controllers
             this.analyzer = analyzer ?? throw new ArgumentNullException(nameof(analyzer));
         }
 
+        [HttpGet]
+        public ActionResult HealthCheck()
+        {
+            return Ok("Up");
+        }
 
         [Route("categories")]
         [HttpGet]
-        public ActionResult GetCategories( string categoryRequest)
+        public ActionResult GetCategories([FromQuery] string request)
         {
             try
             {
-                var response = this.analyzer.GetCategories(categoryRequest);
+                var response = this.analyzer.GetCategories(request);
                 return Ok(response);
             }catch(Exception e)
             {
@@ -32,16 +37,17 @@ namespace MatchInfo.Controllers
 
         [Route("sentiments")]
         [HttpGet]
-        public ActionResult GetSentiments (string sentimentRequest)
+        public ActionResult GetSentiments ([FromQuery]string request)
         {
             try
             {
-                var response = this.analyzer.GetSentiments(sentimentRequest);
+                var response = this.analyzer.GetSentiments(request);
                 return Ok(response);
             }catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
     }
 }
